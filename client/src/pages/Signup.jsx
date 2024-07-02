@@ -12,6 +12,8 @@ const Signup = () => {
   const [passVal, setpassVal] = useState("text-red-300");
 
   const navigate = useNavigate()
+
+  
   const handleShow = () => {
     if (eye === "password") {
       setEye("text");
@@ -65,7 +67,7 @@ const Signup = () => {
   return (
     <div className="flex h-full w-full text-black">
       <div className="signup_message bg-red-400 w-full sm:w-[50%] flex items-center justify-center">
-        <div className="signup_container bg-blue-600 h-[600px] w-[400px] rounded-md">
+        <div className="signup_container bg-blue-600 max-h-[600px] w-[400px] rounded-md">
           <form
             action=""
             className="w-full h-full flex flex-col p-5"
@@ -152,8 +154,8 @@ const Signup = () => {
         </div>
       </div>
 
-      <div className="signup_pict h-full bg-green-500 w-[50%] hidden sm:block">
-        {}
+      <div className="signup_pict h-full bg-green-500 w-[50%] hidden sm:flex justify-center items-center">
+        <h1 className="text-[2vw]">Write your Message here Or  Image</h1>
       </div>
     </div>
   );

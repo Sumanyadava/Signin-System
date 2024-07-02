@@ -8,7 +8,9 @@ export default {
     extend: {},
     fontFamily: {
       lobs: ['Lobster', 'sans-serif'],
-      Robo: ['Roboto','sans']
+      Robo: ['Roboto','sans'],
+      Rc:["Roboto Condensed","sans-serif"],
+      Head: ["Bebas Neue", "sans-serif"]
     },
   },
   plugins: [
