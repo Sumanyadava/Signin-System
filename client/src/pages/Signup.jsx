@@ -75,6 +75,7 @@ const Signup = () => {
             action=""
             className="w-full h-full flex flex-col p-5"
             onSubmit={handleSubmit}
+            autoComplete="on"
           >
             <button
               className="btn border-black text-black hover:bg-gray-100 bg-inherit"
@@ -97,6 +98,7 @@ const Signup = () => {
                 type="text"
                 placeholder="Name here"
                 required
+                autoComplete="username"
                 className="input input-bordered w-full bg-white "
                 value={userName}
                 onChange={(e) => {
@@ -131,6 +133,7 @@ const Signup = () => {
                   {eye == "text" ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
+
               <input
                 type={eye}
                 placeholder="Type here"
@@ -140,12 +143,14 @@ const Signup = () => {
                 onChange={handlePass}
               />
 
+
               <span
                 className={`invisible peer-focus:visible pl-2 pt-2 label-text-alt  ${passVal}`}
               >
                 password must be 8 character long
               </span>
             </label>
+
 
             <button className="btn mt-9">Sign up</button>
 
