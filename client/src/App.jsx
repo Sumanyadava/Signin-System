@@ -4,6 +4,7 @@ import './App.css'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import Home from './pages/Home';
+import ErrorPage from './pages/ErrorPage';
 
 function App() {
   const [backend, setBackend] = useState([{}])
@@ -18,7 +19,7 @@ function App() {
 
         <Route path='/home' element={<Home/>}></Route>
 
-        <Route path='*' element={<h1>Error 404 </h1>}></Route>
+        <Route path='*' element={<ErrorPage />}></Route>
       </Routes>
     
 

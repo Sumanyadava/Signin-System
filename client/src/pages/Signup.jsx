@@ -4,6 +4,10 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 
+import { FaGoogle } from "react-icons/fa";
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa6";
+
 const Signup = () => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
@@ -11,9 +15,8 @@ const Signup = () => {
   const [eye, setEye] = useState("password");
   const [passVal, setpassVal] = useState("text-red-300");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  
   const handleShow = () => {
     if (eye === "password") {
       setEye("text");
@@ -59,7 +62,7 @@ const Signup = () => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error("user already exsist")
+          toast.error("user already exsist");
         });
     }
   };
@@ -79,6 +82,7 @@ const Signup = () => {
                 toast.error("not integrated");
               }}
             >
+              <i><FaGoogle /></i>
               Signup with Google{" "}
             </button>
 
@@ -120,8 +124,11 @@ const Signup = () => {
             <label className="form-control w-full mt-2 relative">
               <div className="label">
                 <span className="">Write a password</span>
-                <span className="label-text-alt cursor-pointer" onClick={handleShow}>
-                  eye
+                <span
+                  className="label-text-alt cursor-pointer text-xl"
+                  onClick={handleShow}
+                >
+                  {eye == "text" ? <FaEyeSlash /> : <FaEye />}
                 </span>
               </div>
               <input
@@ -155,7 +162,7 @@ const Signup = () => {
       </div>
 
       <div className="signup_pict h-full bg-green-500 w-[50%] hidden sm:flex justify-center items-center">
-        <h1 className="text-[2vw]">Write your Message here Or  Image</h1>
+        <h1 className="text-[2vw]">Write your Message here Or Image</h1>
       </div>
     </div>
   );
