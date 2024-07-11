@@ -12,13 +12,15 @@ dotenv.config();
 
 
 connectDB();
-app.use('/',(req,res) => {
-  res.send('server is running...')
-})
-app.use("/api/auth",router)
+// app.use('/',(req,res) => {
+//   res.send('server is running...')
+// })
 
+app.use("/api/auth",router)
+  
 
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
 });
+  

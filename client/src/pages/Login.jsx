@@ -50,9 +50,9 @@ const Login = ({ setJwtToken,jwtToken }) => {
       })
       .catch((err) => {
         toast.error(err.response.data.error);
-        console.log(err.response.data.error);
+        console.log(err);
       });
-  };
+  }; 
   return (
     <div className="flex h-full w-full text-black font-Rc">
       <div className="login_pict h-full bg-green-500 w-[50%] hidden sm:flex justify-center items-center">

@@ -61,8 +61,8 @@ const Signup = () => {
           navigate("/");
         })
         .catch((err) => {
-          console.log(err);
-          toast.error("user already exsist");
+          console.log(err?.response.data.error);
+          toast.error(err?.response.data.error);
         });
     }
   };

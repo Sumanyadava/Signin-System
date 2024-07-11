@@ -16,20 +16,21 @@ const login = async (req, res) => {
       return res.status(400).json({ error: "user has no account" });
     }
 
-    const validPassword = await bcrypt.compare(password, user.password);
+    const validPassword = bcrypt.compare(password, user.password);
 
     if (!validPassword) {
       res.status(400).json({ error: "password is incorrect" });
       console.log(validPassword);
     } else {
-      const token = jwt.sign({username : user.username}, process.env.JWT_KEY, {expiresIn: '2d'})
-      
+      const token = jwt.sign({ username: user.username }, process.env.JWT_KEY, {
+        expiresIn: "2d",
+      });
+
       return res.status(200).json({ message: "success full", token });
-
-
     }
   } catch (error) {
     console.log(error);
+    return res.status(400).json({ message: "failed to login" });
   }
 };
 
@@ -55,7 +56,7 @@ const signin = async (req, res) => {
       return res.status(200).json({ message: "success full" });
     }
   } catch (error) {
-    return res.status(500).json({ error: "an error occured" });
+    return res.status(500).json({ error: "an error occured" ,error});
   }
 };
 
@@ -67,6 +68,5 @@ const all = async (req, res) => {
     console.error("Error fetching users:", error);
     res.status(500).json({ error: "Internal server error" });
   }
-   
-}
-export { login, signin, hello,all };
+};
+export { login, signin, hello, all };

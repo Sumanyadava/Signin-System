@@ -1,13 +1,15 @@
 import Cookies from "universal-cookie";
-import NotAuth from '../pages/NotAuth'
+import NotAuth from "../pages/NotAuth";
 
 const authChecker = (ele) => {
   const cookies = new Cookies();
-  if (!cookies.get('jwt_auth')) {
-    return (<NotAuth />) 
-  }else{
+  const jwt_auth = cookies.get("jwt_auth");
+
+  if (!jwt_auth || jwt_auth == "undefined") {
+    return <NotAuth />;
+  } else {
     return ele;
   }
-}
+};
 
-export default authChecker
+export default authChecker;
