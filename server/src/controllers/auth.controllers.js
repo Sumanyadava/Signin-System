@@ -23,9 +23,9 @@ const login = async (req, res) => {
         res.status(400).json({ error: "password is incorrect" });
       console.log(validPassword);
     } else {
-      return res.status(200).json({ message: "success full" });
-
-    //   const token = jwt.sign({username : user.username}, process.env.JWT_KEY, {expiresIn: '2d'})
+      const token = jwt.sign({username : user.username}, process.env.JWT_KEY, {expiresIn: '2d'})
+      
+      return res.status(200).json({ message: "success full", token });
 
 
     }
