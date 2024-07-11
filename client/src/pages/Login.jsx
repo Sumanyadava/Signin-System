@@ -65,7 +65,7 @@ const Login = () => {
             onSubmit={handleSubmitSign}
           >
             <input
-              type="email"
+              type="email" 
               value={userEmail}
               onChange={(e) => setUserEmail(e.target.value)}
               placeholder="Email"
