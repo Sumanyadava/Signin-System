@@ -12,13 +12,13 @@ dotenv.config();
 
 
 connectDB();
-app.use('/',(req,res) => {
+
+
+app.use("/api/auth",router)
+app.get('/',(req,res) => {
 
   res.send('server is running...')
 })
-
-app.use("/api/auth",router)
-  
 
 
 app.listen(process.env.PORT, () => {
