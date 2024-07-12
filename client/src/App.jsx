@@ -47,7 +47,7 @@ function App() {
         </Routes>
       </BrowserRouter>
       {
-        decoded.username
+        decoded?.username
       }
     </div>
   );

@@ -1,6 +1,9 @@
 import User from "../models/user.models.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const hello = (req, res) => {
   return res.json({ user: ["user1", "user2", "user3"] });
@@ -16,7 +19,9 @@ const login = async (req, res) => {
       return res.status(400).json({ error: "user has no account" });
     }
 
-    const validPassword = bcrypt.compare(password, user.password);
+
+    //await does work it a bug that shows it not have any effect 
+    const validPassword = await bcrypt.compare(password, user.password);
 
     if (!validPassword) {
       res.status(400).json({ error: "password is incorrect" });
@@ -26,7 +31,7 @@ const login = async (req, res) => {
         expiresIn: "2d",
       });
 
-      return res.status(200).json({ message: "success full", token });
+      return res.status(200).json({ message: "success full", token ,validPassword });
     }
   } catch (error) {
     console.log(error);

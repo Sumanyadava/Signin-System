@@ -61,8 +61,9 @@ const Signup = () => {
           navigate("/");
         })
         .catch((err) => {
-          console.log(err?.response.data.error);
-          toast.error(err?.response.data.error);
+          console.log(err);
+          const resMessage = err.response.data.error || "server not connected"
+          toast.error(resMessage);
         });
     }
   };
