@@ -43,7 +43,7 @@ function App() {
 
           <Route path="/home" element={authChecker(<Home />)}></Route>
 
-          <Route path="*" element={authChecker(<ErrorPage />)}></Route>
+          <Route path="*" element={<ErrorPage />}></Route>
         </Routes>
       </BrowserRouter>
       {JSON.stringify(decoded)}
