@@ -3,7 +3,7 @@ import  dotenv  from 'dotenv';
 
 dotenv.config()
 //change db name accordingly
-const db_name = "/signin"
+const db_name = "signin"
 
 const connectDB = async () => {
     try {
@@ -13,6 +13,6 @@ const connectDB = async () => {
     } catch (error) {
         console.log(error.message)
         process.exit(1)
-    }
-}
+    } 
+} 
 export default connectDB;

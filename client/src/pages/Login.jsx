@@ -36,7 +36,7 @@ const Login = ({ setJwtToken,jwtToken }) => {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3002/api/auth/login", {
+      .post("https://signin-system-server.vercel.app/api/auth/login", {
         email: userEmail,
         password: userPassword,
       })
@@ -50,9 +50,9 @@ const Login = ({ setJwtToken,jwtToken }) => {
       })
       .catch((err) => {
         toast.error(err.response.data.error);
-        console.log(err.response.data.error);
+        console.log(err);
       });
-  };
+  }; 
   return (
     <div className="flex h-full w-full text-black font-Rc">
       <div className="login_pict h-full bg-green-500 w-[50%] hidden sm:flex justify-center items-center">
@@ -75,7 +75,7 @@ const Login = ({ setJwtToken,jwtToken }) => {
             onSubmit={handleSubmitSign}
           >
             <input
-              type="email"
+              type="email" 
               value={userEmail}
               onChange={(e) => setUserEmail(e.target.value)}
               placeholder="Email"

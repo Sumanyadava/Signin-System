@@ -11,7 +11,7 @@ const Home = () => {
   const [userData, setUserData] = useState([""]);
   const handleAll = () => {
     axios
-      .get("http://localhost:3002/api/auth/all")
+      .get("https://signin-system-server.vercel.app/api/auth/all")
       .then((data) => {
         console.log(data.data);
         setUserData(data.data);

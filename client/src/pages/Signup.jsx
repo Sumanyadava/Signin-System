@@ -47,7 +47,7 @@ const Signup = () => {
       toast.error("Please fill all the fields");
     } else {
       axios
-        .post("http://localhost:3002/api/auth/signin", {
+        .post("https://signin-system-server.vercel.app/api/auth/signin", {
           name: userName,
           email: userEmail,
           password: userPassword,
@@ -62,7 +62,8 @@ const Signup = () => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error("user already exsist");
+          const resMessage = err.response.data.error || "server not connected"
+          toast.error(resMessage);
         });
     }
   };

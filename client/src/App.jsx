@@ -34,7 +34,7 @@ function App() {
     <div className="h-screen w-screen ">
       <BrowserRouter>
         <Routes>
-          <Route path="/signin" element={authChecker(<Signup />)}></Route>
+          <Route path="/signin" element={<Signup />}></Route>
 
           <Route
             path="/"
@@ -46,7 +46,9 @@ function App() {
           <Route path="*" element={<ErrorPage />}></Route>
         </Routes>
       </BrowserRouter>
-      {JSON.stringify(decoded)}
+      {
+        decoded?.username
+      }
     </div>
   );
 }
