@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import "./App.css";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -10,11 +11,18 @@ import Cookies from "universal-cookie";
 import authChecker from "./utils/helper.util";
 
 function App() {
-  //intialise cookie
-  const cookies = new Cookies();
 
+  //intialise cookie and jwt
+  const cookies = new Cookies();
   const [jwtToken, setJwtToken] = useState(cookies.get("jwt_auth") || null);
 
+
+  // setting the jwt 
+  useEffect(() => {
+    cookies.set("jwt_auth", jwtToken, { path: "/" });
+  }, [jwtToken]);
+
+  
   let decoded;
   if (jwtToken) {
     try {
@@ -25,30 +33,27 @@ function App() {
   } else {
     console.log(jwtToken);
   }
-
-  useEffect(() => {
-    cookies.set("jwt_auth", jwtToken, { path: "/" });
-  }, [jwtToken]);
+  
 
   return (
-    <div className="h-screen w-screen ">
+    <div className="h-screen w-full ">
       <BrowserRouter>
         <Routes>
-          <Route path="/signin" element={<Signup />}></Route>
+          <Route path="/signin" element={<Signup decoded={decoded} />}></Route>
 
           <Route
             path="/"
             element={<Login setJwtToken={setJwtToken} jwtToken={jwtToken} />}
           ></Route>
 
-          <Route path="/home" element={authChecker(<Home />)}></Route>
+          <Route path="/home" element={authChecker(<Home decoded={decoded} />)}></Route>
 
           <Route path="*" element={<ErrorPage />}></Route>
         </Routes>
       </BrowserRouter>
-      {
-        decoded?.username
-      }
+      {/* {decoded?.username} */}
+
+      <ToastContainer />
     </div>
   );
 }

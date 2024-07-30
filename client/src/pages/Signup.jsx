@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -8,7 +8,7 @@ import { FaGoogle } from "react-icons/fa";
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 
-const Signup = () => {
+const Signup = ({ decoded }) => {
   const [userName, setUserName] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
@@ -16,16 +16,15 @@ const Signup = () => {
   const [passVal, setpassVal] = useState("text-red-300");
 
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
 
-  const handleShow = () => {
-    if (eye === "password") {
-      setEye("text");
-    } else {
-      setEye("password");
-    }
-  };
+  //filling the fields with user data
+  useEffect(() => {
+    setUserName(decoded?.username);
+    setUserEmail(decoded?.useremail);
+  }, [decoded]);
 
-  const handlePass = (e) => {
+  const handlePassword = (e) => {
     let passdigit = e.target.value;
     setUserPassword(passdigit);
 
@@ -36,7 +35,7 @@ const Signup = () => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSave = (e) => {
     e.preventDefault();
 
     if (
@@ -47,7 +46,7 @@ const Signup = () => {
       toast.error("Please fill all the fields");
     } else {
       axios
-        .post("https://signin-system-server.vercel.app/api/auth/signin", {
+        .post(apiUrl + "/api/auth/signin", {
           name: userName,
           email: userEmail,
           password: userPassword,
@@ -62,22 +61,57 @@ const Signup = () => {
         })
         .catch((err) => {
           console.log(err);
-          const resMessage = err.response.data.error || "server not connected"
+          const resMessage = err.response.data.error || "server not connected";
           toast.error(resMessage);
         });
     }
   };
 
+  const handleEdit = (e) => {
+    e.preventDefault();
+  
+    if (
+      userName.trim().length <= 2 ||
+      userEmail.trim() === "" ||
+      userPassword.trim().length < 8
+    ) {
+      toast.error("Please fill all the fields");
+    } else {
+      axios
+        .put(apiUrl + "/api/auth/update", {
+          name: userName,
+          email: userEmail,
+          password: userPassword,
+        })
+        .then((data) => {
+          toast.success("Update Success");
+          console.log(userName, userEmail, userPassword);
+          setUserName("");
+          setUserEmail("");
+          setUserPassword("");
+          navigate("/");
+        })
+        .catch((err) => {
+          console.log(err);
+          const resMessage = err.response.data.error || "server not connected";
+          toast.error(resMessage);
+        });
+    }
+  };
+  
+
   return (
-    <div className="flex h-full w-full text-black">
-      <div className="signup_message bg-red-400 w-full sm:w-[50%] flex items-center justify-center">
-        <div className="signup_container bg-blue-600 max-h-[600px] w-[400px] rounded-md">
+    <div className="flex h-full w-full bg-white text-black">
+      <div className="signup_message  w-full sm:w-[50%] flex items-center justify-center">
+        <div className="signup_container  max-h-[600px] w-[400px] rounded-md">
           <form
             action=""
             className="w-full h-full flex flex-col p-5"
-            onSubmit={handleSubmit}
             autoComplete="on"
           >
+            {/*
+            google integration: not integrated
+
             <button
               className="btn border-black text-black hover:bg-gray-100 bg-inherit"
               onClick={() => {
@@ -89,18 +123,21 @@ const Signup = () => {
             </button>
 
             <div className="divider divider-neutral">or</div>
+             */}
             {/* text field  */}
 
             <label className="form-control w-full ">
               <div className="label">
-                <span className="">What is your name?</span>
+                <span className="">
+                  {decoded ? "Edit your name?" : "What is your name?"}
+                </span>
               </div>
               <input
                 type="text"
                 placeholder="Name here"
                 required
                 autoComplete="username"
-                className="input input-bordered w-full bg-white "
+                className="input border-black w-full bg-white "
                 value={userName}
                 onChange={(e) => {
                   setUserName(e.target.value);
@@ -110,12 +147,15 @@ const Signup = () => {
 
             <label className="form-control w-full mt-2">
               <div className="label">
-                <span className="">Write your email</span>
+                <span className="">
+                  {decoded ? "Edit your Email ?" : "What is your Email?"}
+                </span>
               </div>
               <input
                 type="email"
                 placeholder="Email here"
-                className="peer input input-bordered w-full bg-white "
+                autoComplete="email"
+                className="peer input border-black w-full bg-white "
                 required
                 value={userEmail}
                 onChange={(e) => {
@@ -126,10 +166,16 @@ const Signup = () => {
 
             <label className="form-control w-full mt-2 relative">
               <div className="label">
-                <span className="">Write a password</span>
+                <span className="">
+                  {decoded
+                    ? "If you wanted to Reset Password ?"
+                    : "What is your name?"}
+                </span>
                 <span
                   className="label-text-alt cursor-pointer text-xl"
-                  onClick={handleShow}
+                  onClick={() => {
+                    eye == "password" ? setEye("text") : setEye("password");
+                  }}
                 >
                   {eye == "text" ? <FaEyeSlash /> : <FaEye />}
                 </span>
@@ -137,13 +183,13 @@ const Signup = () => {
 
               <input
                 type={eye}
+                autoComplete="current-password"
                 placeholder="Type here"
                 required
-                className="peer input input-bordered w-full bg-white "
+                className="peer input border-black w-full bg-white "
                 value={userPassword}
-                onChange={handlePass}
+                onChange={handlePassword}
               />
-
 
               <span
                 className={`invisible peer-focus:visible pl-2 pt-2 label-text-alt  ${passVal}`}
@@ -151,24 +197,39 @@ const Signup = () => {
                 password must be 8 character long
               </span>
             </label>
+            {decoded ? (
+              <button className="btn mt-9" onClick={handleEdit}>
+                Save
+              </button>
+            ) : (
+              <button className="btn mt-9" onClick={handleSave}>
+                Sign ups
+              </button>
+            )}
 
-
-            <button className="btn mt-9">Sign up</button>
-
-            <ToastContainer />
-
-            <p className=" text-center mt-2">
-              Been here before?{" "}
-              <Link to="/" className="underline font-bold">
-                Login Instead
-              </Link>
-            </p>
+            {decoded ? (
+              <p className=" text-center mt-2">
+                Go Back?{" "}
+                <Link to="/home" className="underline font-bold">
+                  Home
+                </Link>
+              </p>
+            ) : (
+              <p className=" text-center mt-2">
+                Been here before?{" "}
+                <Link to="/" className="underline font-bold">
+                  Login Instead
+                </Link>
+              </p>
+            )}
           </form>
         </div>
       </div>
 
-      <div className="signup_pict h-full bg-green-500 w-[50%] hidden sm:flex justify-center items-center">
-        <h1 className="text-[2vw]">Write your Message here Or Image</h1>
+      <div className="signup_pict h-full  w-[50%] hidden sm:flex justify-center items-center">
+        <h1 className="text-[4vw]">
+          {decoded ? "Edit Here..." : "Sign up Here..."}
+        </h1>
       </div>
     </div>
   );

@@ -1,10 +1,11 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Cookies from "universal-cookie";
+import axios from "axios";
 
+// icons import
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { FaGoogle } from "react-icons/fa";
@@ -14,9 +15,14 @@ const Login = ({ setJwtToken,jwtToken }) => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
+
   const cookies = new Cookies();
   const navigate = useNavigate();
+  const apiUrl = import.meta.env.VITE_API_URL;
 
+
+
+  // checking if the user is already logged in 
   useEffect(() => {
     if (cookies.get("jwt_auth")) {
       navigate("/home");
@@ -24,19 +30,14 @@ const Login = ({ setJwtToken,jwtToken }) => {
   }, [navigate, cookies]);
   
 
-  const handleshow = () => {
-    if (eye === "password") {
-      setEye("text");
-    } else {
-      setEye("password");
-    }
-  };
 
-  const handleSubmitSign = (e) => {
+  
+
+  const handleSubmitLogin = (e) => {
     e.preventDefault();
 
     axios
-      .post("https://signin-system-server.vercel.app/api/auth/login", {
+      .post(apiUrl+"/api/auth/login", {
         email: userEmail,
         password: userPassword,
       })
@@ -54,13 +55,16 @@ const Login = ({ setJwtToken,jwtToken }) => {
       });
   }; 
   return (
-    <div className="flex h-full w-full text-black font-Rc">
-      <div className="login_pict h-full bg-green-500 w-[50%] hidden sm:flex justify-center items-center">
-        <h1 className="text-[2vw]">Write message or Image</h1>
+    <div className="flex h-full w-full bg-white text-black font-Rc">
+      <div className="login_pict h-full  w-[50%] hidden sm:flex justify-center items-center">
+        <h1 className="text-[8vw]">
+          {/* You can Write message or Image */}
+          Login Here
+          </h1>
       </div>
-      <div className="login_message bg-red-400 w-full sm:w-[50%] flex items-center justify-center">
-        <div className="login_container bg-red-50 h-[500px] w-[350px] rounded-md">
-          <h2 className="font-bold  text-5xl p-3">Welcome back !</h2>
+      <div className="login_message  w-full sm:w-[50%] flex items-center justify-center">
+        <div className="login_container  h-[500px] w-[350px] rounded-md">
+          <h2 className="font-bold  text-4xl p-3">Welcome back !</h2>
           <p className="text-sm p-3  text-gray-500">
             Don't have an account?{" "}
             <Link to="/signin" className="text-black underline">
@@ -72,7 +76,7 @@ const Login = ({ setJwtToken,jwtToken }) => {
           <form
             autoComplete="on"
             className="p-3 h-[70%] w-full flex flex-col justify-around "
-            onSubmit={handleSubmitSign}
+            onSubmit={handleSubmitLogin}
           >
             <input
               type="email" 
@@ -94,7 +98,7 @@ const Login = ({ setJwtToken,jwtToken }) => {
 
               <i
                 className="absolute right-4 top-2 cursor-pointer text-xl"
-                onClick={handleshow}
+                onClick={() => {eye == "password" ? setEye("text"):setEye("password")}}
               >
                 {eye == "text" ? <FaEyeSlash /> : <FaEye />}
               </i>
@@ -120,7 +124,7 @@ const Login = ({ setJwtToken,jwtToken }) => {
           </form>
         </div>
       </div>
-      <ToastContainer />
+      
     </div>
   );
 };

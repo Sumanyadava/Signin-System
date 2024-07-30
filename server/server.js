@@ -12,11 +12,11 @@ dotenv.config();
 
 
 connectDB();
-
+ 
 
 app.use("/api/auth",router)
 app.get('/',(req,res) => {
-
+  //:display on / route
   res.send('server is running...')
 })
 

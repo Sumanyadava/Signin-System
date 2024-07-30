@@ -9,6 +9,14 @@ const hello = (req, res) => {
   return res.json({ user: ["user1", "user2", "user3"] });
 };
 
+
+
+
+
+
+
+
+
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -19,7 +27,6 @@ const login = async (req, res) => {
       return res.status(400).json({ error: "user has no account" });
     }
 
-
     //await does work it a bug that shows it not have any effect 
     const validPassword = await bcrypt.compare(password, user.password);
 
@@ -27,7 +34,7 @@ const login = async (req, res) => {
       res.status(400).json({ error: "password is incorrect" });
       console.log(validPassword);
     } else {
-      const token = jwt.sign({ username: user.username }, process.env.JWT_KEY, {
+      const token = jwt.sign({ userID:user._id, username: user.username,useremail:user.email }, process.env.JWT_KEY, {
         expiresIn: "2d",
       });
 
@@ -38,6 +45,16 @@ const login = async (req, res) => {
     return res.status(400).json({ message: "failed to login" });
   }
 };
+
+
+
+
+
+
+
+
+
+
 
 const signin = async (req, res) => {
   const { name, email, password } = req.body;
