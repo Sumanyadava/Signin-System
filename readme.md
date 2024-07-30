@@ -1,6 +1,6 @@
 # SigninSystem
 
-A signin system so user can manage their accound 
+A signin system so user can manage user accounts 
 
 ## Demo
 
@@ -13,13 +13,13 @@ link to demo -
 1. Clone the project:
 
    ```bash
-   git clone https://github.com/Sumanyadava/develops.git
+   git clone https://github.com/Sumanyadava/chaintech.git
    ```
 
 2. Navigate to the project :
 
    ```bash
-   cd signinsystem
+   cd chaintech
    ```
 
 3. Navigate to the client directory:
@@ -34,6 +34,7 @@ link to demo -
    npm install
    ```
 4.1 Rename .env.sample file to .env 
+
 5. Start the client:
 
    ```bash
@@ -87,7 +88,7 @@ link to demo -
 #### Siginin
 
 ```http
-  GET /api/auth/signin
+  POST /api/auth/signin
 ```
 
 | Parameter | Type     | Description                |
@@ -109,7 +110,7 @@ link to demo -
 #### Update User
 
 ```http
-  GET /api/auth/update
+  PUT /api/auth/update
 ```
 
 | Parameter | Type     | Description                |

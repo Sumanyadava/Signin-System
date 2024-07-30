@@ -43,9 +43,10 @@ const Home = ({decoded}) => {
           </div>
           <div className="flex-none ">
             <div className="dropdown dropdown-end">
+{/*               
               <button className="btn btn-accent mr-5" onClick={handleAll}>
                 View All User
-              </button>
+              </button> */}
             </div>
 
             
@@ -79,8 +80,8 @@ const Home = ({decoded}) => {
 
        </h1>
         <h1>
-          {userData.map((e) => {
-            return <h2 className="text-center text-white"> {e.username}</h2>;
+          {userData.map((e,index) => {
+            return <p key={index} className="text-center text-white"> {e.username}</p>;
           })}
         </h1>
         
