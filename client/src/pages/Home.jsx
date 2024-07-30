@@ -75,7 +75,7 @@ const Home = ({decoded}) => {
           </div>
         </div>
     <h1 className="text-center mt-24 text-[6vw]">Welcome {decoded?.username}
-       {decoded?.userID}
+       
 
        </h1>
         <h1>

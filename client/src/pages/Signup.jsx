@@ -75,7 +75,7 @@ const Signup = ({ decoded }) => {
     if (
       userName.trim().length <= 2 ||
       userEmail.trim() === "" ||
-      userPassword.trim().length < 8
+      (userPassword.trim().length > 0 && userPassword.trim().length < 8)
     ) {
       toast.error("Please fill all the fields");
     } else {
