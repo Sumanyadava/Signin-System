@@ -39,7 +39,7 @@ function App() {
     <div className="h-screen w-full ">
       <BrowserRouter>
         <Routes>
-          <Route path="/signin" element={<Signup decoded={decoded} />}></Route>
+          <Route path="/signin" element={<Signup decoded={decoded} setJwtToken={setJwtToken} />}></Route>
 
           <Route
             path="/"

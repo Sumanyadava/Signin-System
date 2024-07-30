@@ -31,7 +31,7 @@ const Home = ({decoded}) => {
     window.location.reload();
   };
   const handleEdit = () => {
-    navigate(`/signin?email=${decoded?.useremail}`)
+    navigate("/signin")
   }
 
   return (

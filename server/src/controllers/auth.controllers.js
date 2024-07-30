@@ -93,7 +93,7 @@ const all = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { userId } = req.params;
+  const { userId } = req.query;
   const { name, email, password } = req.body;
 
   try {

@@ -11,7 +11,7 @@ router.get("/all", all);
 
 router.post("/login", login) 
 router.post("/signin", signin);
-router.post("/update",updateUser)
+router.put("/update",updateUser)
   
 
 export default router

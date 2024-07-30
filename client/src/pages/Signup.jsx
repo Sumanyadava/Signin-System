@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import Cookies from "universal-cookie";
 import { Link, useNavigate } from "react-router-dom";
 
 import { FaGoogle } from "react-icons/fa";
@@ -15,6 +16,7 @@ const Signup = ({ decoded }) => {
   const [eye, setEye] = useState("password");
   const [passVal, setpassVal] = useState("text-red-300");
 
+  const cookies = new Cookies();
   const navigate = useNavigate();
   const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -35,7 +37,7 @@ const Signup = ({ decoded }) => {
     }
   };
 
-  const handleSave = (e) => {
+  const handleSave = async (e) => {
     e.preventDefault();
 
     if (
@@ -45,7 +47,7 @@ const Signup = ({ decoded }) => {
     ) {
       toast.error("Please fill all the fields");
     } else {
-      axios
+      await axios
         .post(apiUrl + "/api/auth/signin", {
           name: userName,
           email: userEmail,
@@ -67,9 +69,9 @@ const Signup = ({ decoded }) => {
     }
   };
 
-  const handleEdit = (e) => {
+  const handleEdit = async (e) => {
     e.preventDefault();
-  
+
     if (
       userName.trim().length <= 2 ||
       userEmail.trim() === "" ||
@@ -77,19 +79,23 @@ const Signup = ({ decoded }) => {
     ) {
       toast.error("Please fill all the fields");
     } else {
-      axios
-        .put(apiUrl + "/api/auth/update", {
+      await axios
+        .put(apiUrl + `/api/auth/update?userId=${decoded?.userID}`, {
           name: userName,
           email: userEmail,
           password: userPassword,
         })
         .then((data) => {
-          toast.success("Update Success");
+          toast.success("Update Successfully");
           console.log(userName, userEmail, userPassword);
           setUserName("");
           setUserEmail("");
           setUserPassword("");
+
+          //after edit logout the user for safety
+          cookies.remove("jwt_auth", { path: "/" });
           navigate("/");
+          window.location.reload();
         })
         .catch((err) => {
           console.log(err);
@@ -98,7 +104,6 @@ const Signup = ({ decoded }) => {
         });
     }
   };
-  
 
   return (
     <div className="flex h-full w-full bg-white text-black">
